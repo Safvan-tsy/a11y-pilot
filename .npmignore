@@ -1,0 +1,17 @@
+# Development files
+test/
+docs/
+.git/
+.github/
+.gitignore
+.DS_Store
+
+# Config files
+vitest.config.*
+.eslintrc*
+.prettierrc*
+.editorconfig
+
+# Build artifacts
+coverage/
+*.log

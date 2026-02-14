@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bad Form Example</title>
+</head>
+<body>
+  <h1>Contact Us</h1>
+
+  <!-- ❌ heading-order: skips h2 -->
+  <h3>Fill out the form below</h3>
+
+  <form>
+    <!-- ❌ form-label: input without label -->
+    <input type="text" placeholder="Your name" />
+
+    <!-- ❌ form-label: input without label -->
+    <input type="email" placeholder="Your email" />
+
+    <!-- ❌ form-label: textarea without label -->
+    <textarea placeholder="Your message"></textarea>
+
+    <!-- ❌ no-autofocus -->
+    <input type="text" autofocus placeholder="Phone number" />
+
+    <button type="submit">Send</button>
+  </form>
+
+  <!-- ❌ img-alt: missing alt -->
+  <img src="map.png" width="400" height="300">
+
+  <!-- ❌ no-div-button: clickable div -->
+  <div onclick="showChat()" style="cursor: pointer;">
+    Live Chat
+  </div>
+
+  <!-- ❌ anchor-content: empty link -->
+  <a href="/terms"></a>
+</body>
+</html>

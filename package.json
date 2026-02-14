@@ -1,0 +1,67 @@
+{
+  "name": "a11y-pilot",
+  "version": "1.0.0",
+  "description": "AI-powered accessibility scanner that uses GitHub Copilot CLI to auto-fix a11y issues in frontend codebases",
+  "main": "src/cli.js",
+  "bin": {
+    "a11y-pilot": "./bin/a11y-pilot.js"
+  },
+  "type": "module",
+  "files": [
+    "bin/",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node bin/a11y-pilot.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepublishOnly": "node bin/a11y-pilot.js --help"
+  },
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "copilot",
+    "cli",
+    "scanner",
+    "wcag",
+    "aria",
+    "semantic-html",
+    "github-copilot",
+    "lint",
+    "a11y-lint",
+    "copilot-cli",
+    "keyboard-navigation",
+    "screen-reader"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "homepage": "",
+  "bugs": {
+    "url": ""
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.29.0",
+    "@babel/traverse": "^7.29.0",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "commander": "^14.0.3",
+    "diff": "^8.0.3",
+    "figures": "^6.1.0",
+    "gradient-string": "^3.0.0",
+    "htmlparser2": "^10.1.0",
+    "log-symbols": "^7.0.1",
+    "ora": "^9.3.0"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18"
+  }
+}
