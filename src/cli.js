@@ -70,6 +70,12 @@ function analyzeFile(filePath, rules) {
       const navIssues = rule.checkNavPatterns(elements, code);
       issues.push(...navIssues);
     }
+
+    // Landmark regions check (file-level)
+    if (rule.id === 'landmark-regions' && rule.checkLandmarks) {
+      const landmarkIssues = rule.checkLandmarks(elements, code);
+      issues.push(...landmarkIssues);
+    }
   }
 
   // Sort by line number
@@ -90,7 +96,7 @@ export function cli(argv) {
     .description(
       'AI-powered accessibility scanner that uses GitHub Copilot CLI to auto-fix a11y issues'
     )
-    .version('1.0.0');
+    .version('1.1.0');
 
   // ─── scan command ──────────────────────────────────────────────────────────
   program
@@ -195,6 +201,7 @@ export function cli(argv) {
           warnings: totalWarnings,
           files: filesWithIssues,
           totalFiles: files.length,
+          issues: [...allIssues.values()].flat(),
         });
       }
 
@@ -242,6 +249,7 @@ export function cli(argv) {
         warnings: totalWarnings,
         files: filesWithIssues,
         totalFiles: files.length,
+        issues: [...allIssues.values()].flat(),
       });
 
       process.exit(totalErrors > 0 ? 1 : 0);
@@ -304,6 +312,7 @@ export function cli(argv) {
         warnings: totalWarnings,
         files: filesWithIssues,
         totalFiles: files.length,
+        issues: [...allIssuesMap.values()].flat(),
       });
 
       if (allIssuesMap.size === 0) {

@@ -6,6 +6,13 @@ import headingOrder from './heading-order.js';
 import anchorContent from './anchor-content.js';
 import noAutofocus from './no-autofocus.js';
 import semanticNav from './semantic-nav.js';
+import ariaValid from './aria-valid.js';
+import keyboardHandlers from './keyboard-handlers.js';
+import landmarkRegions from './landmark-regions.js';
+import ariaHiddenFocus from './aria-hidden-focus.js';
+import hoverOnly from './hover-only.js';
+import disabledState from './disabled-state.js';
+import tabindexPositive from './tabindex-positive.js';
 
 /**
  * All available a11y rules.
@@ -20,6 +27,13 @@ export const allRules = [
   anchorContent,
   noAutofocus,
   semanticNav,
+  ariaValid,
+  keyboardHandlers,
+  landmarkRegions,
+  ariaHiddenFocus,
+  hoverOnly,
+  disabledState,
+  tabindexPositive,
 ];
 
 /**

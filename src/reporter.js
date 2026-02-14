@@ -37,7 +37,7 @@ const BANNER = `
 export function printBanner() {
   console.log(bannerGradient(BANNER));
   console.log(
-    chalk.dim('  v1.0.0 — AI-powered accessibility scanner')
+    chalk.dim('  v1.1.0 — AI-powered accessibility scanner')
   );
   console.log(
     chalk.dim('  Powered by GitHub Copilot CLI ✦\n')
@@ -86,7 +86,7 @@ export function printFileIssues(filePath, issues) {
  * @param {object} summary - {errors, warnings, files, totalFiles, fixable}
  */
 export function printSummary(summary) {
-  const { errors, warnings, files, totalFiles } = summary;
+  const { errors, warnings, files, totalFiles, issues } = summary;
   const total = errors + warnings;
 
   console.log(chalk.dim('  ' + '─'.repeat(65)));
@@ -120,7 +120,105 @@ export function printSummary(summary) {
     `in ${colors.count(files)} file${files !== 1 ? 's' : ''} ` +
     colors.dim(`(${totalFiles} scanned)`)
   );
+
+  // Print Category Dashboard if issues provided
+  if (issues && issues.length > 0) {
+    printDashboard(issues);
+  }
+
   console.log('');
+}
+
+// ─── Category Dashboard ─────────────────────────────────────────────────────
+
+/**
+ * Rule-to-category mapping
+ */
+const RULE_CATEGORIES = {
+  'img-alt':           'Accessibility',
+  'button-content':    'Accessibility',
+  'anchor-content':    'Accessibility',
+  'form-label':        'Accessibility',
+  'aria-valid':        'ARIA',
+  'aria-hidden-focus': 'ARIA',
+  'heading-order':     'Semantic HTML',
+  'semantic-nav':      'Semantic HTML',
+  'landmark-regions':  'Semantic HTML',
+  'no-div-button':     'Semantic HTML',
+  'keyboard-handlers': 'Keyboard',
+  'no-autofocus':      'Keyboard',
+  'tabindex-positive': 'Keyboard',
+  'hover-only':        'Interaction',
+  'disabled-state':    'Interaction',
+};
+
+const CATEGORY_COLORS = {
+  'Accessibility': chalk.cyan,
+  'ARIA':          chalk.magenta,
+  'Semantic HTML': chalk.blue,
+  'Keyboard':      chalk.yellow,
+  'Interaction':   chalk.red,
+};
+
+const CATEGORY_ICONS = {
+  'Accessibility': '♿',
+  'ARIA':          '🏷️',
+  'Semantic HTML': '🏗️',
+  'Keyboard':      '⌨️',
+  'Interaction':   '👆',
+};
+
+/**
+ * Print a category breakdown dashboard
+ * @param {object[]} issues - All issues found
+ */
+function printDashboard(issues) {
+  // Group by category
+  const categoryMap = {};
+  for (const issue of issues) {
+    const cat = RULE_CATEGORIES[issue.ruleId] || 'Other';
+    if (!categoryMap[cat]) categoryMap[cat] = { errors: 0, warnings: 0, rules: new Set() };
+    categoryMap[cat].rules.add(issue.ruleId);
+    if (issue.severity === 'error') categoryMap[cat].errors++;
+    else categoryMap[cat].warnings++;
+  }
+
+  const total = issues.length;
+
+  console.log('');
+  console.log(chalk.bold('  📊 Issue Breakdown'));
+  console.log(chalk.dim('  ' + '─'.repeat(50)));
+
+  // Sort categories by total issues descending
+  const sorted = Object.entries(categoryMap).sort(
+    (a, b) => (b[1].errors + b[1].warnings) - (a[1].errors + a[1].warnings)
+  );
+
+  for (const [cat, data] of sorted) {
+    const catTotal = data.errors + data.warnings;
+    const pct = Math.round((catTotal / total) * 100);
+    const barWidth = 20;
+    const filled = Math.round((catTotal / total) * barWidth);
+    const colorFn = CATEGORY_COLORS[cat] || chalk.white;
+    const icon = CATEGORY_ICONS[cat] || '•';
+
+    const bar = colorFn('█'.repeat(filled)) + chalk.dim('░'.repeat(barWidth - filled));
+    const label = colorFn(` ${icon} ${cat}`.padEnd(22));
+    const stats = [];
+    if (data.errors > 0) stats.push(chalk.red(`${data.errors}E`));
+    if (data.warnings > 0) stats.push(chalk.yellow(`${data.warnings}W`));
+
+    console.log(`  ${label} ${bar}  ${chalk.bold(String(catTotal).padStart(3))} ${chalk.dim(`(${pct}%)`)}  ${stats.join(' ')}`);
+  }
+
+  console.log(chalk.dim('  ' + '─'.repeat(50)));
+
+  // Rules triggered
+  const uniqueRules = new Set(issues.map(i => i.ruleId));
+  console.log(
+    chalk.dim(`  ${uniqueRules.size} rule${uniqueRules.size !== 1 ? 's' : ''} triggered: `) +
+    [...uniqueRules].map(r => colors.rule(r)).join(chalk.dim(', '))
+  );
 }
 
 /**

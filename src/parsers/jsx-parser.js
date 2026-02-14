@@ -61,7 +61,17 @@ export function collectJSXElements(ast, code) {
             if (attr.value.type === 'StringLiteral') {
               attributes[attrName] = attr.value.value;
             } else if (attr.value.type === 'JSXExpressionContainer') {
-              attributes[attrName] = '{expression}'; // placeholder
+              // Extract literal values from simple expressions
+              const expr = attr.value.expression;
+              if (expr.type === 'NumericLiteral') {
+                attributes[attrName] = String(expr.value);
+              } else if (expr.type === 'StringLiteral') {
+                attributes[attrName] = expr.value;
+              } else if (expr.type === 'BooleanLiteral') {
+                attributes[attrName] = String(expr.value);
+              } else {
+                attributes[attrName] = '{expression}'; // dynamic expression
+              }
             }
           } else {
             attributes[attrName] = true; // boolean attribute
