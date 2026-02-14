@@ -25,36 +25,36 @@ It catches real problems that affect real users — missing alt text, non-semant
 
 ---
 
+## Installation
+
+```bash
+# Install globally
+npm install -g a11y-pilot
+
+# Or use directly with npx (no install needed)
+npx a11y-pilot scan ./src
+```
+
 ## Quick Start
 
 ```bash
-# Clone the repo
-git clone https://github.com/YOUR_USERNAME/a11y-pilot.git
-cd a11y-pilot
-npm install
-
-# Scan the test fixtures
-node bin/a11y-pilot.js scan test/fixtures/
-
-# Scan your own project
-node bin/a11y-pilot.js scan /path/to/your/frontend/src
-
-# Show Copilot CLI fix commands
-node bin/a11y-pilot.js scan ./src --fix
-
-# Auto-fix with Copilot CLI (requires copilot CLI installed)
-node bin/a11y-pilot.js fix ./src
-
-# Or use the scan command with --auto-fix
-node bin/a11y-pilot.js scan ./src --auto-fix
-```
-
-### Install Globally (optional)
-
-```bash
-npm link
+# Scan your frontend project
 a11y-pilot scan ./src
+
+# Scan a specific file
+a11y-pilot scan ./src/App.tsx
+
+# Show Copilot CLI fix commands for each issue
+a11y-pilot scan ./src --fix
+
+# Auto-fix all issues using GitHub Copilot CLI
+a11y-pilot fix ./src
+
+# Or use the scan command with --auto-fix flag
+a11y-pilot scan ./src --auto-fix
 ```
+
+> **Note:** Auto-fix requires [GitHub Copilot CLI](https://github.com/github/copilot-cli) to be installed and authenticated.
 
 ---
 
@@ -144,14 +144,15 @@ a11y-pilot uses GitHub Copilot CLI as its AI-powered fix engine. When you run `-
 
 ### Prerequisites
 
-- [GitHub Copilot CLI](https://github.com/github/copilot-cli) installed and authenticated
-- Node.js 18+
+- **Node.js 18+**
+- [GitHub Copilot CLI](https://github.com/github/copilot-cli) installed and authenticated (required only for auto-fix)
 
 ```bash
-# Install Copilot CLI
-# See: https://github.com/github/copilot-cli
+# Install a11y-pilot
+npm install -g a11y-pilot
 
-# Authenticate
+# Install & authenticate Copilot CLI (for auto-fix)
+# See: https://github.com/github/copilot-cli
 copilot auth login
 ```
 
@@ -267,11 +268,16 @@ MIT — see [LICENSE](LICENSE) for details.
 Contributions welcome! Ideas for new rules, parser improvements, or better Copilot CLI integration are all appreciated.
 
 ```bash
+# Clone the repo
+git clone https://github.com/AnasMHD-Off0/a11y-pilot.git
+cd a11y-pilot
+npm install
+
 # Run tests
 npm test
 
 # Scan the test fixtures during development
-node bin/a11y-pilot.js scan test/fixtures/
+a11y-pilot scan test/fixtures/
 ```
 
 ---
