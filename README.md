@@ -253,7 +253,7 @@ This entire project was built using GitHub Copilot CLI as a core development too
 - Generating test fixtures
 - Writing documentation
 
-See the [submission article](#) for terminal screenshots and a full walkthrough.
+See the [submission article](#https://dev.to/safvantsy/what-if-your-a11y-linter-could-actually-fix-the-bugs-it-found-4coe) for terminal screenshots and a full walkthrough.
 
 ---
 
@@ -269,7 +269,7 @@ Contributions welcome! Ideas for new rules, parser improvements, or better Copil
 
 ```bash
 # Clone the repo
-git clone https://github.com/AnasMHD-Off0/a11y-pilot.git
+git https://github.com/Safvan-tsy/a11y-pilot.git
 cd a11y-pilot
 npm install
 
